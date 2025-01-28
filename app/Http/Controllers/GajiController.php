@@ -12,9 +12,13 @@ class GajiController extends Controller
 {
     public function index(Request $request)
     {
-        $bulan = $request->input('bulan') ?? date('m');
-        $tahun = $request->input('tahun') ?? date('Y');
+        // Mengambil nilai bulan_tahun dari input, jika kosong maka menggunakan nilai default
+        $bulan_tahun = $request->input('bulan_tahun') ?? date('Y-m');
 
+        // Memisahkan tahun dan bulan dari bulan_tahun
+        list($tahun, $bulan) = explode('-', $bulan_tahun);
+
+        // Mendapatkan data gaji berdasarkan bulan dan tahun yang dipilih
         $gaji = Gaji::where('bulan', $bulan)
             ->where('tahun', $tahun)
             ->with('guru')
@@ -118,4 +122,12 @@ class GajiController extends Controller
 
         return view('gaji.print', compact('gaji'));
     }
+
+    // public function destroy($id)
+    // {
+    //     $gaji = Gaji::findOrFail($id);
+    //     $gaji->delete();
+
+    //     return redirect()->route('gaji.index')->with('success', 'Data gaji berhasil dihapus.');
+    // }
 }

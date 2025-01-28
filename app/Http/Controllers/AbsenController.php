@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AbsenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $absen = Absen::with('guru')->get();
         return view('absen.index', compact('absen'));

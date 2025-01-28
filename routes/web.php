@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GajiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JamMengajarController;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// route untuk dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('guru')->group(function () {
     Route::get('/', [GuruController::class, 'index'])->name('guru.index');
@@ -55,4 +59,5 @@ Route::prefix('gaji')->group(function () {
     Route::get('/create', [GajiController::class, 'create'])->name('gaji.create');
     Route::post('/store', [GajiController::class, 'store'])->name('gaji.store');
     Route::get('/gaji/print/{id}', [GajiController::class, 'print'])->name('gaji.print');
+    // Route::delete('/destroy/{id}', [GajiController::class, 'destroy'])->name('gaji.destroy');
 });

@@ -20,8 +20,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tanggal">Tanggal</label>
-                <input type="date" name="tanggal" id="tanggal" class="form-control">
+                <input type="date" name="tanggal" id="tanggal" class="form-control" style="display:none;">
             </div>
             <div class="form-group">
                 <label for="jumlah_jam">Jumlah Jam</label>
@@ -33,3 +32,18 @@
     </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mengambil tanggal saat ini
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Januari adalah 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd; // Format yyyy-mm-dd
+
+        // Set nilai input tanggal dengan tanggal saat ini
+        document.getElementById('tanggal').value = today;
+    });
+</script>
