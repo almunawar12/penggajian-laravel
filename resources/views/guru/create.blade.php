@@ -19,6 +19,14 @@
                 <input type="text" name="nip" id="nip" class="form-control" value="{{ old('nip') }}">
             </div>
             <div class="form-group">
+                <label for="email">Email <small>(Opsional, jika kosong akan dibuat otomatis)</small></label>
+                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Password <small>(Opsional, jika kosong akan default `password123`)</small></label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="harga_per_jam">Harga Per Jam</label>
                 <input type="number" name="harga_per_jam" id="harga_per_jam" class="form-control" value="{{ old('harga_per_jam') }}" required>
             </div>

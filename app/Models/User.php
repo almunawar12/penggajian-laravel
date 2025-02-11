@@ -34,6 +34,11 @@ class User extends Authenticatable
         return $this->role === 'guru';
     }
 
+    public function guru()
+    {
+        return $this->hasOne(Guru::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

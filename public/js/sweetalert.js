@@ -31,25 +31,21 @@ function confirmDelete(id, formId) {
     });
 }
 
-function confirmLogout() {
+function confirmLogout(event) {
+    event.preventDefault(); // Mencegah logout langsung
+
     Swal.fire({
-        title: "Yakin ingin keluar?",
+        title: "Konfirmasi Logout",
+        text: "Apakah Anda yakin ingin keluar?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Ya, keluar!",
+        confirmButtonText: "Ya, Logout",
         cancelButtonText: "Batal",
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "{{ route('logout') }}";
-        } else {
-            Swal.fire({
-                title: "Dibatalkan!",
-                text: "Anda tetap login.",
-                icon: "info",
-                confirmButtonColor: "#3085d6",
-            });
+            document.getElementById("logout-form").submit();
         }
     });
 }

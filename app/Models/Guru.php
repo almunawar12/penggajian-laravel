@@ -12,6 +12,7 @@ class Guru extends Model
     protected $table = 'guru';
 
     protected $fillable = [
+        'user_id',
         'nama',
         'nip',
         'alamat',
@@ -33,5 +34,10 @@ class Guru extends Model
     public function gaji()
     {
         return $this->hasMany(Gaji::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

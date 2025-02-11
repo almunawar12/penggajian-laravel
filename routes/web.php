@@ -6,6 +6,7 @@ use App\Http\Controllers\GajiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JamMengajarController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +66,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/{id}', [AbsenController::class, 'edit'])->name('absen.edit');
         Route::put('/update/{id}', [AbsenController::class, 'update'])->name('absen.update');
         Route::delete('/destroy/{id}', [AbsenController::class, 'destroy'])->name('absen.destroy');
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::get('/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/store', [UserController::class, 'store'])->name('user.store');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     });
 });
 

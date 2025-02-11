@@ -34,6 +34,13 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user.index') }}">
+                    <i class="fas fa-user"></i>
+                    <span>User</span>
+                </a>
+            </li>
+
             <!-- Data Absen -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('absen.index') }}">
@@ -55,14 +62,15 @@
 
         <!-- Tombol Logout -->
         <li class="nav-item">
-            <form method="POST" action="{{ route('logout') }}">
+            <a href="#" class="nav-link text-white" onclick="confirmLogout(event)">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-                <button type="submit" class="nav-link btn btn-link text-white text-left w-100" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </button>
             </form>
         </li>
+
     </ul>
 
     <!-- Page Content Wrapper -->
