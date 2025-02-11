@@ -30,3 +30,26 @@ function confirmDelete(id, formId) {
         }
     });
 }
+
+function confirmLogout() {
+    Swal.fire({
+        title: "Yakin ingin keluar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Ya, keluar!",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "{{ route('logout') }}";
+        } else {
+            Swal.fire({
+                title: "Dibatalkan!",
+                text: "Anda tetap login.",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+            });
+        }
+    });
+}
