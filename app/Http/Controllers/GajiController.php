@@ -12,23 +12,38 @@ class GajiController extends Controller
 {
     public function index(Request $request)
     {
+        // Ambil role pengguna
+        $user = auth()->user();
+
         // Mengambil nilai bulan_tahun dari input, jika kosong maka menggunakan nilai default
         $bulan_tahun = $request->input('bulan_tahun') ?? date('Y-m');
-
-        // Memisahkan tahun dan bulan dari bulan_tahun
         list($tahun, $bulan) = explode('-', $bulan_tahun);
 
-        // Mendapatkan data gaji berdasarkan bulan dan tahun yang dipilih
-        $gaji = Gaji::where('bulan', $bulan)
-            ->where('tahun', $tahun)
-            ->with('guru')
-            ->get();
+        // Jika yang login adalah admin, ambil semua data gaji
+        if ($user->role === 'admin') {
+            $gaji = Gaji::where('bulan', $bulan)
+                ->where('tahun', $tahun)
+                ->with('guru')
+                ->get();
+        } else {
+            // Jika yang login adalah guru, hanya ambil data gajinya sendiri
+            $gaji = Gaji::where('guru_id', $user->id)
+                ->where('bulan', $bulan)
+                ->where('tahun', $tahun)
+                ->with('guru')
+                ->get();
+        }
 
         return view('gaji.index', compact('gaji', 'bulan', 'tahun'));
     }
 
+
     public function hitung(Request $request, $guru_id)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
+        }
+
         $bulan = $request->input('bulan');
         $tahun = $request->input('tahun');
 
@@ -63,12 +78,20 @@ class GajiController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
+        }
+
         $guru = Guru::all(); // Ambil semua data guru
         return view('gaji.create', compact('guru'));
     }
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
+        }
+
         $request->validate([
             'guru_id' => 'required|exists:guru,id',
             'bulan_tahun' => 'required|date_format:Y-m',

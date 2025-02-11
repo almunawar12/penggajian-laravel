@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Guru;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +22,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $user = User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
+
+        Guru::create([
+            'nama' => 'John Doe',
+            'nip' => '123456',
+            'harga_per_jam' => 50000,
+            'status_honorer' => 'honorer',
+            'user_id' => $user->id,
+        ]);
     }
 }

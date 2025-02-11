@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
     public function index()
     {
-        $guru = Guru::all();
+        $guru = Guru::with('user')->get();
         return view('guru.index', compact('guru'));
     }
 
@@ -25,11 +26,32 @@ class GuruController extends Controller
             'nip' => 'nullable|string|unique:guru',
             'harga_per_jam' => 'required|numeric',
             'status_honorer' => 'required|in:honorer,tetap',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
-        Guru::create($request->all());
+        // Buat akun pengguna
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => bcrypt('password123'), // Default password
+            'role' => 'guru', // Set role sebagai guru
+        ]);
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil ditambahkan.');
+        dd($user);
+
+        // Buat data guru dan hubungkan dengan user_id
+        $guru = Guru::create([
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'harga_per_jam' => $request->harga_per_jam,
+            'status_honorer' => $request->status_honorer,
+            'user_id' => $user->id, // Hubungkan dengan user_id
+        ]);
+
+        dd($guru);
+
+        return redirect()->route('guru.index')->with('success', 'Data guru dan akun berhasil dibuat.');
     }
 
     public function edit($id)

@@ -18,6 +18,7 @@ class Guru extends Model
         'no_telp',
         'harga_per_jam',
         'status_honorer',
+        'user_id',
     ];
 
     public function jamMengajar()
@@ -33,5 +34,10 @@ class Guru extends Model
     public function gaji()
     {
         return $this->hasMany(Gaji::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -23,6 +23,16 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isGuru()
+    {
+        return $this->role === 'guru';
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

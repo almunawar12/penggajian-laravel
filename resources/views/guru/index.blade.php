@@ -15,6 +15,7 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>NIP</th>
+                    <th>Email</th>
                     <th>Harga Per Jam</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -26,6 +27,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->nip }}</td>
+                    <td>{{ $item->user ? $item->user->email : '-' }}</td>
                     <td>Rp{{ number_format($item->harga_per_jam, 0, ',', '.') }}</td>
                     <td>{{ ucfirst($item->status_honorer) }}</td>
                     <td>
