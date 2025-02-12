@@ -6,7 +6,13 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Data Gaji</h6>
-        <a href="{{ route('gaji.create') }}" class="btn btn-success btn-sm float-right"><i class="fa fa-add"></i> Tambah Gaji</a> <!-- Tombol tambah gaji -->
+
+        @if(auth()->user()->role === 'admin')
+            <a href="{{ route('gaji.create') }}" class="btn btn-success btn-sm float-right">
+                <i class="fa fa-add"></i> Tambah Gaji
+            </a> <!-- Tombol tambah gaji hanya untuk admin -->
+        @endif
+
         <form method="GET" class="form-inline float-right mr-2">
             <div class="form-group mx-sm-2 mb-2">
                 <input type="month" class="form-control" name="bulan_tahun" value="{{ request('bulan_tahun') ?? now()->format('Y-m') }}">
@@ -16,7 +22,7 @@
     </div>
     <div class="card-body">
         @if($gaji->isEmpty()) <!-- Cek apakah data kosong -->
-        <table class="table table-bordered">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -60,13 +66,17 @@
                             <a href="{{ route('gaji.print', $item->id) }}" class="btn btn-info btn-sm">
                                 <i class="fa fa-print"></i> Print Slip Gaji
                             </a>
-                            {{-- <form action="{{ route('gaji.destroy', $item->id) }}" method="POST" class="d-inline" id="deleteForm{{ $item->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }}, 'deleteForm{{ $item->id }}')">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form> --}}
+
+                            @if(auth()->user()->role === 'admin')
+                                {{-- Tombol hapus hanya untuk admin --}}
+                                {{-- <form action="{{ route('gaji.destroy', $item->id) }}" method="POST" class="d-inline" id="deleteForm{{ $item->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $item->id }}, 'deleteForm{{ $item->id }}')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form> --}}
+                            @endif
                         </td>
                     </tr>
                     @endforeach

@@ -12,17 +12,43 @@ class GajiController extends Controller
 {
     public function index(Request $request)
     {
-        // Mengambil nilai bulan_tahun dari input, jika kosong maka menggunakan nilai default
-        $bulan_tahun = $request->input('bulan_tahun') ?? date('Y-m');
+        // // Mengambil nilai bulan_tahun dari input, jika kosong maka menggunakan nilai default
+        // $bulan_tahun = $request->input('bulan_tahun') ?? date('Y-m');
 
-        // Memisahkan tahun dan bulan dari bulan_tahun
+        // // Memisahkan tahun dan bulan dari bulan_tahun
+        // list($tahun, $bulan) = explode('-', $bulan_tahun);
+
+        // // Mendapatkan data gaji berdasarkan bulan dan tahun yang dipilih
+        // $gaji = Gaji::where('bulan', $bulan)
+        //     ->where('tahun', $tahun)
+        //     ->with('guru')
+        //     ->get();
+
+        // return view('gaji.index', compact('gaji', 'bulan', 'tahun'));
+
+        $user = auth()->user(); // Dapatkan user yang sedang login
+        $bulan_tahun = $request->input('bulan_tahun') ?? date('Y-m');
         list($tahun, $bulan) = explode('-', $bulan_tahun);
 
-        // Mendapatkan data gaji berdasarkan bulan dan tahun yang dipilih
-        $gaji = Gaji::where('bulan', $bulan)
-            ->where('tahun', $tahun)
-            ->with('guru')
-            ->get();
+        // Jika role adalah guru, hanya ambil gaji dirinya sendiri
+        if ($user->role === 'guru') {
+            $guru = Guru::where('user_id', $user->id)->first(); // Ambil data guru berdasarkan user_id
+            if (!$guru) {
+                return redirect()->back()->with('error', 'Data guru tidak ditemukan.');
+            }
+
+            $gaji = Gaji::where('guru_id', $guru->id)
+                ->where('bulan', $bulan)
+                ->where('tahun', $tahun)
+                ->with('guru')
+                ->get();
+        } else {
+            // Jika admin, bisa melihat semua data gaji
+            $gaji = Gaji::where('bulan', $bulan)
+                ->where('tahun', $tahun)
+                ->with('guru')
+                ->get();
+        }
 
         return view('gaji.index', compact('gaji', 'bulan', 'tahun'));
     }

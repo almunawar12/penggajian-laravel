@@ -58,6 +58,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+                <a class="nav-link" href="{{ route('absen.index') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Data Absen</span>
+                </a>
+            </li>
+
         <hr class="sidebar-divider">
 
         <!-- Tombol Logout -->
