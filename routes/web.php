@@ -78,6 +78,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
+// guru dan admin bisa mengakses halaman ini
 Route::middleware(['auth'])->group(function () {
     Route::prefix('gaji')->group(function () {
         Route::get('/', [GajiController::class, 'index'])->name('gaji.index');
@@ -86,4 +87,24 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [GajiController::class, 'store'])->name('gaji.store');
         Route::get('/gaji/print/{id}', [GajiController::class, 'print'])->name('gaji.print');
     });
+
+    Route::prefix('absen')->group(function () {
+        Route::get('/', [AbsenController::class, 'index'])->name('absen.index');
+        Route::get('/create', [AbsenController::class, 'create'])->name('absen.create');
+        Route::post('/store', [AbsenController::class, 'store'])->name('absen.store');
+        Route::get('/edit/{id}', [AbsenController::class, 'edit'])->name('absen.edit');
+        Route::put('/update/{id}', [AbsenController::class, 'update'])->name('absen.update');
+        Route::delete('/destroy/{id}', [AbsenController::class, 'destroy'])->name('absen.destroy');
+    });
 });
+
+// Route::middleware(['auth', 'role:admin,guru'])->group(function () {
+//     Route::prefix('absen')->group(function () {
+//         Route::get('/', [AbsenController::class, 'index'])->name('absen.index'); // Bisa diakses oleh guru dan admin
+//         Route::get('/create', [AbsenController::class, 'create'])->name('absen.create')->middleware('role:admin');
+//         Route::post('/store', [AbsenController::class, 'store'])->name('absen.store')->middleware('role:admin');
+//         Route::get('/edit/{id}', [AbsenController::class, 'edit'])->name('absen.edit')->middleware('role:admin');
+//         Route::put('/update/{id}', [AbsenController::class, 'update'])->name('absen.update')->middleware('role:admin');
+//         Route::delete('/destroy/{id}', [AbsenController::class, 'destroy'])->name('absen.destroy')->middleware('role:admin');
+//     });
+// });

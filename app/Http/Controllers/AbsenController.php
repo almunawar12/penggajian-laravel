@@ -10,7 +10,19 @@ class AbsenController extends Controller
 {
     public function index(Request $request)
     {
-        $absen = Absen::with('guru')->get();
+        // $absen = Absen::with('guru')->get();
+        // return view('absen.index', compact('absen'));
+
+        if (auth()->user()->role == 'admin') {
+            // Admin bisa melihat semua data absen
+            $absen = Absen::with('guru')->get();
+        } else {
+            // Guru hanya bisa melihat data absen berdasarkan user yang sedang login
+            $absen = Absen::with('guru')->whereHas('guru', function ($query) {
+                $query->where('user_id', auth()->id());
+            })->get();
+        }
+
         return view('absen.index', compact('absen'));
     }
 

@@ -50,6 +50,13 @@
             </li>
         @endif
 
+        <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard') }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            
         <!-- Gaji (Admin dan Guru bisa akses) -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('gaji.index') }}">
@@ -68,7 +75,7 @@
         <hr class="sidebar-divider">
 
         <!-- Tombol Logout -->
-        <li class="nav-item">
+        <li class="nav-item position-absolute w-100" style="bottom: 0;">
             <a href="#" class="nav-link text-white" onclick="confirmLogout(event)">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
@@ -77,6 +84,7 @@
                 @csrf
             </form>
         </li>
+
 
     </ul>
 
